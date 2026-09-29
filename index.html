@@ -1,1 +1,1181 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Donasi untuk Semangat Belajar</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
 
+  body {
+    background: linear-gradient(135deg, #4f8bff 0%, #6f5bff 50%, #a94eff 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px;
+  }
+
+  .container {
+    background: #fff;
+    border-radius: 24px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    max-width: 480px;
+    width: 100%;
+    overflow: hidden;
+    animation: fadeUp 0.6s ease;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .header {
+    background: linear-gradient(135deg, #4f8bff, #a94eff);
+    color: #fff;
+    padding: 28px 24px 20px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header::before {
+    content: '📚';
+    position: absolute;
+    font-size: 90px;
+    opacity: 0.1;
+    top: 10px;
+    right: -10px;
+  }
+
+  .header::after {
+    content: '✏️';
+    position: absolute;
+    font-size: 70px;
+    opacity: 0.1;
+    bottom: -10px;
+    left: -5px;
+  }
+
+  .header .icon { font-size: 44px; margin-bottom: 6px; position: relative; z-index: 1; }
+  .header h1 { font-size: 22px; margin-bottom: 4px; position: relative; z-index: 1; }
+  .header p { font-size: 13px; opacity: 0.95; position: relative; z-index: 1; }
+
+  .content { padding: 22px; }
+
+  .info-box {
+    background: #f0f3ff;
+    border-left: 4px solid #6f5bff;
+    padding: 12px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    color: #2a2a7a;
+    margin-bottom: 18px;
+    line-height: 1.5;
+  }
+
+  .amount-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .amount-btn {
+    padding: 12px;
+    border: 2px solid #e0e6ff;
+    background: #f8f9ff;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #6f5bff;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+
+  .amount-btn:hover,
+  .amount-btn.active {
+    background: linear-gradient(135deg, #4f8bff, #6f5bff);
+    color: #fff;
+    border-color: #6f5bff;
+    transform: translateY(-2px);
+  }
+
+  label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 6px;
+    margin-top: 14px;
+  }
+
+  .input-rp {
+    position: relative;
+    display: flex;
+    align-items: center;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: border 0.2s;
+    background: #fff;
+  }
+
+  .input-rp:focus-within { border-color: #6f5bff; }
+
+  .input-rp .prefix {
+    padding: 0 4px 0 14px;
+    font-size: 15px;
+    font-weight: 700;
+    color: #6f5bff;
+    user-select: none;
+  }
+
+  .input-rp input {
+    flex: 1;
+    padding: 12px 14px 12px 4px;
+    border: none;
+    font-size: 15px;
+    font-weight: 600;
+    color: #333;
+    font-family: inherit;
+    background: transparent;
+    outline: none;
+    width: 100%;
+    letter-spacing: 0.5px;
+  }
+
+  .input-hint {
+    font-size: 11px;
+    color: #999;
+    margin-top: 4px;
+    display: block;
+  }
+
+  input[type="text"]:not(.input-rp input), textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    font-size: 14px;
+    transition: border 0.2s;
+    font-family: inherit;
+  }
+
+  input[type="text"]:focus, textarea:focus {
+    outline: none;
+    border-color: #6f5bff;
+  }
+
+  textarea { resize: vertical; min-height: 60px; }
+
+  .btn-submit {
+    width: 100%;
+    padding: 14px;
+    margin-top: 20px;
+    background: linear-gradient(135deg, #4f8bff, #6f5bff);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(111, 91, 255, 0.4);
+  }
+
+  /* ============ PROGRESS ============ */
+  .progress-card {
+    background: linear-gradient(135deg, #f0f3ff, #e8ecff);
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 18px;
+    border: 1px solid #d5deff;
+  }
+
+  .progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .progress-header .title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #2a2a7a;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .progress-header .percent {
+    font-size: 13px;
+    font-weight: 800;
+    color: #6f5bff;
+    background: #fff;
+    padding: 3px 10px;
+    border-radius: 20px;
+    box-shadow: 0 2px 6px rgba(111,91,255,0.15);
+  }
+
+  .progress-bar {
+    width: 100%;
+    height: 12px;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.08);
+  }
+
+  .progress-bar .fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #4f8bff, #6f5bff, #a94eff);
+    border-radius: 10px;
+    transition: width 1.5s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .progress-bar .fill::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -50%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+    animation: shine 2s infinite;
+  }
+
+  @keyframes shine {
+    0% { left: -50%; }
+    100% { left: 100%; }
+  }
+
+  .empty-message {
+    text-align: center;
+    font-size: 12px;
+    color: #4a3a9a;
+    background: #fff;
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 12px;
+    border: 1px dashed #d5deff;
+    line-height: 1.5;
+  }
+
+  .empty-message strong {
+    color: #6f5bff;
+    display: block;
+    margin-bottom: 2px;
+    font-size: 13px;
+  }
+
+  .progress-info {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    font-size: 12px;
+    color: #2a2a7a;
+  }
+
+  .progress-info strong {
+    color: #6f5bff;
+    font-size: 14px;
+    display: block;
+  }
+
+  .progress-info .target { text-align: right; }
+  .progress-info .target strong { color: #333; }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-top: 14px;
+  }
+
+  .stat-box {
+    background: #fff;
+    border-radius: 10px;
+    padding: 10px 6px;
+    text-align: center;
+    border: 1px solid #e0e6ff;
+    transition: transform 0.2s;
+  }
+
+  .stat-box:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 14px rgba(111,91,255,0.15);
+  }
+
+  .stat-box .stat-icon { font-size: 20px; margin-bottom: 3px; }
+  .stat-box .stat-num {
+    font-size: 15px;
+    font-weight: 800;
+    color: #6f5bff;
+    line-height: 1.1;
+    display: block;
+  }
+  .stat-box .stat-label {
+    font-size: 10px;
+    color: #888;
+    margin-top: 2px;
+    line-height: 1.2;
+    display: block;
+  }
+
+  /* ============================================
+     ============ MODAL FULLSCREEN ============
+     ============================================ */
+  .modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(135deg, #4f8bff 0%, #6f5bff 50%, #a94eff 100%);
+    z-index: 100;
+    padding: 20px;
+    overflow-y: auto;
+  }
+
+  .modal.show {
+    display: block;
+    animation: fadeInModal 0.3s ease;
+  }
+
+  @keyframes fadeInModal {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .modal-inner {
+    min-height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 0;
+  }
+
+  .modal-content {
+    background: #fff;
+    border-radius: 24px;
+    padding: 26px 22px;
+    max-width: 440px;
+    width: 100%;
+    text-align: center;
+    animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 30px 80px rgba(0,0,0,0.35);
+    position: relative;
+  }
+
+  @keyframes popIn {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  .btn-x-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: none;
+    background: #f0f0f0;
+    color: #666;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    line-height: 1;
+  }
+
+  .btn-x-close:hover {
+    background: #e0e0e0;
+    color: #333;
+    transform: rotate(90deg);
+  }
+
+  .modal-content h2 {
+    color: #6f5bff;
+    font-size: 21px;
+    margin-bottom: 4px;
+    padding: 0 30px;
+  }
+
+  .modal-content .subtitle {
+    font-size: 12px;
+    color: #777;
+    margin-bottom: 16px;
+  }
+
+  .qris-display {
+    background: #f8f9ff;
+    border: 2px dashed #6f5bff;
+    border-radius: 18px;
+    padding: 18px;
+    text-align: center;
+    margin-bottom: 14px;
+  }
+
+  .qris-img-wrap {
+    background: #fff;
+    border-radius: 14px;
+    padding: 12px;
+    box-shadow: 0 4px 16px rgba(111,91,255,0.15);
+    display: inline-block;
+  }
+
+  .qris-img-wrap img {
+    max-width: 280px;
+    width: 100%;
+    display: block;
+    border-radius: 8px;
+  }
+
+  /* ============================================
+     ============ TOMBOL DOWNLOAD QRIS ============
+     ============================================ */
+  .btn-download-qris {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 12px;
+    margin-top: 12px;
+    background: #fff;
+    border: 2px solid #6f5bff;
+    color: #6f5bff;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    font-family: inherit;
+  }
+
+  .btn-download-qris:hover {
+    background: linear-gradient(135deg, #4f8bff, #6f5bff);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(111, 91, 255, 0.3);
+  }
+
+  .btn-download-qris:active { transform: scale(0.98); }
+
+  .btn-download-qris.downloading {
+    background: #e0e6ff;
+    color: #6f5bff;
+    border-color: #6f5bff;
+    pointer-events: none;
+  }
+
+  .detail-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    padding: 9px 0;
+    border-bottom: 1px solid #eee;
+    text-align: left;
+  }
+
+  .detail-row:last-of-type { border-bottom: none; }
+  .detail-row span:first-child { color: #777; }
+  .detail-row span:last-child { font-weight: 700; color: #6f5bff; }
+
+  .btn-verify {
+    width: 100%;
+    padding: 14px;
+    margin-top: 16px;
+    background: linear-gradient(135deg, #4f8bff, #6f5bff);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+
+  .btn-verify:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(111,91,255,0.4);
+  }
+
+  .btn-close {
+    width: 100%;
+    padding: 12px;
+    margin-top: 8px;
+    background: transparent;
+    color: #888;
+    border: 2px solid #eee;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .btn-close:hover { background: #f5f5f5; color: #333; }
+
+  /* Status */
+  .status-box {
+    padding: 20px;
+    border-radius: 14px;
+    margin: 14px 0;
+    text-align: center;
+  }
+
+  .status-waiting {
+    background: #fff8e1;
+    border: 2px dashed #f0ad4e;
+  }
+
+  .status-success {
+    background: linear-gradient(135deg, #f0f3ff, #e0e8ff);
+    border: 2px solid #6f5bff;
+    animation: successPop 0.6s ease;
+  }
+
+  @keyframes successPop {
+    0% { transform: scale(0.9); opacity: 0.5; }
+    50% { transform: scale(1.03); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  .status-box h3 { font-size: 17px; margin-bottom: 4px; }
+  .status-waiting h3 { color: #b8791a; }
+  .status-success h3 { color: #6f5bff; }
+  .status-box p { font-size: 12px; color: #666; line-height: 1.5; }
+
+  .loader {
+    display: inline-block;
+    width: 42px;
+    height: 42px;
+    border: 4px solid #f0ad4e33;
+    border-top-color: #f0ad4e;
+    border-radius: 50%;
+    animation: spin 0.9s linear infinite;
+    margin-bottom: 8px;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .checkmark-circle {
+    width: 74px;
+    height: 74px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #4f8bff, #a94eff);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    box-shadow: 0 10px 24px rgba(111,91,255,0.45);
+    animation: popCheck 0.5s ease;
+  }
+
+  @keyframes popCheck {
+    0% { transform: scale(0); }
+    70% { transform: scale(1.15); }
+    100% { transform: scale(1); }
+  }
+
+  .checkmark-circle svg { width: 42px; height: 42px; }
+  .checkmark-circle svg path {
+    stroke-dasharray: 50;
+    stroke-dashoffset: 50;
+    animation: drawCheck 0.5s ease 0.2s forwards;
+  }
+
+  @keyframes drawCheck { to { stroke-dashoffset: 0; } }
+
+  .struk {
+    background: #fff;
+    border-radius: 12px;
+    padding: 14px;
+    margin-top: 12px;
+    text-align: left;
+    border: 1px solid #e0e8ff;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .struk::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #4f8bff, #6f5bff, #a94eff);
+  }
+
+  .struk .struk-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    padding: 6px 0;
+    border-bottom: 1px dashed #eee;
+  }
+
+  .struk .struk-row:last-child { border-bottom: none; }
+  .struk .struk-row span:first-child { color: #777; }
+  .struk .struk-row span:last-child {
+    font-weight: 700;
+    color: #6f5bff;
+    text-align: right;
+    max-width: 60%;
+    word-break: break-word;
+  }
+
+  .doa-text {
+    font-style: italic;
+    font-size: 12px;
+    color: #2a2a7a;
+    margin-top: 10px;
+    padding: 10px;
+    background: #f0f3ff;
+    border-radius: 8px;
+    line-height: 1.5;
+    text-align: center;
+  }
+
+  .btn-done {
+    width: 100%;
+    padding: 14px;
+    margin-top: 14px;
+    background: linear-gradient(135deg, #4f8bff, #6f5bff);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .btn-done:hover { opacity: 0.92; }
+
+  .progress-line {
+    width: 100%;
+    height: 6px;
+    background: #f0f0f0;
+    border-radius: 3px;
+    margin-top: 12px;
+    overflow: hidden;
+  }
+
+  .progress-line .fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #4f8bff, #a94eff);
+    border-radius: 3px;
+    transition: width 0.3s ease;
+  }
+
+  .footer {
+    text-align: center;
+    font-size: 11px;
+    color: #aaa;
+    padding: 14px;
+    border-top: 1px solid #f0f0f0;
+  }
+
+  /* Toast notifikasi */
+  .toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: #16a085;
+    color: #fff;
+    padding: 12px 22px;
+    border-radius: 30px;
+    font-size: 13px;
+    font-weight: 600;
+    box-shadow: 0 10px 30px rgba(22,160,133,0.4);
+    z-index: 9999;
+    opacity: 0;
+    transition: all 0.4s ease;
+    pointer-events: none;
+    max-width: 90%;
+    text-align: center;
+  }
+
+  .toast.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <div class="icon">📚</div>
+    <h1>Donasi untuk Semangat Belajar</h1>
+    <p>Dukung anak-anak Indonesia agar terus semangat belajar</p>
+  </div>
+
+  <div class="content">
+
+    <!-- ============ PROGRESS CARD ============ -->
+    <div class="progress-card">
+      <div class="progress-header">
+        <div class="title">🎯 Target Donasi</div>
+        <div class="percent" id="percentText">0%</div>
+      </div>
+
+      <div class="progress-bar">
+        <div class="fill" id="progressFillTop"></div>
+      </div>
+
+      <div class="empty-message" id="emptyMessage">
+        <strong>🌟 Jadilah Donatur Pertama!</strong>
+        Belum ada donasi masuk. Jadilah yang pertama mendukung semangat belajar anak-anak.
+      </div>
+
+      <div class="progress-info" id="progressInfo" style="display:none;">
+        <div class="collected">
+          Terkumpul
+          <strong id="collectedText">Rp 0</strong>
+        </div>
+        <div class="target">
+          Target
+          <strong id="targetText">Rp 0</strong>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-box">
+          <div class="stat-icon">🎓</div>
+          <span class="stat-num" id="statAnak">0</span>
+          <span class="stat-label">Anak Didukung</span>
+        </div>
+        <div class="stat-box">
+          <div class="stat-icon">📖</div>
+          <span class="stat-num" id="statBuku">0</span>
+          <span class="stat-label">Buku Dibagikan</span>
+        </div>
+        <div class="stat-box">
+          <div class="stat-icon">❤️</div>
+          <span class="stat-num" id="statDonatur">0</span>
+          <span class="stat-label">Donatur</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ FORM DONASI ============ -->
+    <div class="info-box">
+      📚 <strong>“Belajar adalah jendela dunia.”</strong><br>
+      Setiap donasi Anda membantu anak-anak mendapatkan buku, alat tulis, dan beasiswa.
+    </div>
+
+    <label>Pilih Nominal Donasi</label>
+    <div class="amount-grid" id="amountGrid"></div>
+
+    <label for="customAmount">Atau masukkan nominal lain</label>
+    <div class="input-rp">
+      <span class="prefix">Rp</span>
+      <input type="text" id="customAmount" placeholder="200.000" inputmode="numeric" autocomplete="off">
+    </div>
+    <span class="input-hint">💡 Ketik angka, otomatis terformat (contoh: 200000 → 200.000)</span>
+
+    <label for="name">Nama Anda (opsional)</label>
+    <input type="text" id="name" placeholder="Hamba Allah">
+
+    <label for="message">Doa / Pesan (opsional)</label>
+    <textarea id="message" placeholder="Tulis doa atau pesan semangat untuk anak-anak..."></textarea>
+
+    <button class="btn-submit" onclick="showQRISFromForm()">📚 Donasi Sekarang</button>
+
+  </div>
+
+  <div class="footer">
+    © 2025 Semangat Belajar · Dukung pendidikan anak Indonesia
+  </div>
+</div>
+
+<!-- ==================== MODAL FULLSCREEN ==================== -->
+<div class="modal" id="qrisModal">
+  <div class="modal-inner">
+    <div class="modal-content">
+      <button class="btn-x-close" onclick="closeModal()" title="Tutup">✕</button>
+
+      <div id="stepQR">
+        <h2>Scan QRIS untuk Donasi</h2>
+        <p class="subtitle">Scan menggunakan aplikasi bank / e-wallet Anda</p>
+
+        <div class="qris-display">
+          <div class="qris-img-wrap">
+            <img id="qrisImg" src="https://i.ibb.co.com/4RyjFCTv/p.jpg" alt="QRIS" crossorigin="anonymous">
+          </div>
+
+          <!-- ⭐ TOMBOL DOWNLOAD QRIS -->
+          <button class="btn-download-qris" id="btnDownloadQRIS" onclick="downloadQRIS()">
+            ⬇️ Download QRIS
+          </button>
+        </div>
+
+        <div class="detail-row"><span>Nominal</span><span id="detailAmount">Rp 0</span></div>
+        <div class="detail-row"><span>Atas Nama</span><span id="detailName">Hamba Allah</span></div>
+        <div class="detail-row"><span>Penerima</span><span>Semangat Belajar Foundation</span></div>
+
+        <button class="btn-verify" onclick="simulasiPembayaran()">
+          📲 Saya Sudah Scan & Bayar
+        </button>
+        <button class="btn-close" onclick="closeModal()">Tutup</button>
+      </div>
+
+      <div id="stepWaiting" style="display:none;">
+        <h2>Menunggu Pembayaran</h2>
+        <p class="subtitle">Mohon selesaikan pembayaran di aplikasi Anda</p>
+
+        <div class="status-box status-waiting">
+          <div class="loader"></div>
+          <h3 id="waitingText">Memproses...</h3>
+          <div class="progress-line">
+            <div class="fill" id="progressFill"></div>
+          </div>
+        </div>
+        <div class="detail-row"><span>Nominal</span><span id="waitAmount">Rp 0</span></div>
+        <div class="detail-row"><span>Metode</span><span>QRIS</span></div>
+        <div class="detail-row"><span>Status</span><span style="color:#f0ad4e;">⏳ Menunggu</span></div>
+      </div>
+
+      <div id="stepSuccess" style="display:none;">
+        <div class="status-box status-success">
+          <div class="checkmark-circle">
+            <svg viewBox="0 0 50 50">
+              <path d="M14 27 L22 35 L37 17"
+                    fill="none" stroke="#fff" stroke-width="4"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3>Donasi Berhasil! 🎉</h3>
+          <p>Terima kasih sudah mendukung semangat belajar anak-anak</p>
+        </div>
+
+        <div class="struk">
+          <div class="struk-row"><span>Status</span><span style="color:#6f5bff;">✓ BERHASIL</span></div>
+          <div class="struk-row"><span>Nominal</span><span id="succAmount">Rp 0</span></div>
+          <div class="struk-row"><span>Atas Nama</span><span id="succName">Hamba Allah</span></div>
+          <div class="struk-row"><span>Penerima</span><span>Semangat Belajar Foundation</span></div>
+          <div class="struk-row"><span>Metode</span><span>QRIS</span></div>
+          <div class="struk-row"><span>ID Transaksi</span><span id="succId">TRX-000000</span></div>
+          <div class="struk-row"><span>Waktu</span><span id="succTime">-</span></div>
+        </div>
+
+        <div class="doa-text">
+          📚 “Terima kasih sudah mendukung semangat belajar. Semoga menjadi amal jariyah untuk Anda.”
+        </div>
+
+        <button class="btn-done" onclick="closeModal(true)">Selesai</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast notifikasi -->
+<div class="toast" id="toast">✅ Berhasil!</div>
+
+<script>
+  /* ===================================================
+     ============ ⭐ KONFIGURASI QRIS ⭐ ============
+     Ganti link di bawah dengan QRIS milik Anda
+  */
+  const QRIS_IMAGE_URL = "https://i.ibb.co.com/4RyjFCTv/p.jpg";
+  const QRIS_FILENAME = "qris-semangat-belajar.jpg";
+
+  /* ============ ⭐ NOMINAL CEPAT ⭐ ============ */
+  const NOMINAL_CEPAT = [
+    10000, 25000, 50000, 100000, 200000, 500000,
+  ];
+
+  /* ============ KONFIGURASI ============ */
+  const CONFIG = {
+    target:        0,
+    terkumpul:     0,
+    anakDidukung:  0,
+    bukuDibagikan: 0,
+    donatur:       0
+  };
+
+  /* ============ FORMAT RUPIAH ============ */
+  function formatRupiah(num) {
+    return 'Rp ' + num.toLocaleString('id-ID');
+  }
+
+  function formatAngka(str) {
+    const digits = str.replace(/\D/g, '');
+    if (!digits) return '';
+    return parseInt(digits).toLocaleString('id-ID');
+  }
+
+  /* ============ TOAST ============ */
+  function showToast(msg, isSuccess = true) {
+    const toast = document.getElementById('toast');
+    toast.textContent = msg;
+    toast.style.background = isSuccess ? '#16a085' : '#e94e77';
+    toast.style.boxShadow = isSuccess
+      ? '0 10px 30px rgba(22,160,133,0.4)'
+      : '0 10px 30px rgba(233,78,119,0.4)';
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2500);
+  }
+
+  /* ============================================
+     ============ ⭐ DOWNLOAD QRIS ⭐ ============
+     ============================================ */
+  async function downloadQRIS() {
+    const btn = document.getElementById('btnDownloadQRIS');
+    const originalText = btn.innerHTML;
+
+    try {
+      btn.classList.add('downloading');
+      btn.innerHTML = '⏳ Mengunduh...';
+
+      // Coba fetch sebagai blob (biar langsung ke-download)
+      const response = await fetch(QRIS_IMAGE_URL, { mode: 'cors' });
+      if (!response.ok) throw new Error('Gagal fetch');
+
+      const blob = await response.blob();
+      const blobUrl = URL.createObjectURL(blob);
+
+      // Buat link download otomatis
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.download = QRIS_FILENAME;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      // Bersihkan memory
+      setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
+
+      btn.innerHTML = '✅ Berhasil Diunduh!';
+      showToast('✅ QRIS berhasil diunduh!', true);
+
+      setTimeout(() => {
+        btn.innerHTML = originalText;
+        btn.classList.remove('downloading');
+      }, 2000);
+
+    } catch (err) {
+      console.warn('Download via fetch gagal, fallback ke cara manual:', err);
+
+      // FALLBACK: Buka gambar di tab baru
+      // (user bisa tekan lama → "Simpan Gambar" untuk simpan manual)
+      const link = document.createElement('a');
+      link.href = QRIS_IMAGE_URL;
+      link.download = QRIS_FILENAME;
+      link.target = '_blank';
+      link.rel = 'noopener';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      btn.innerHTML = '✅ Cek Galeri Anda';
+      showToast('📱 Gambar terbuka di tab baru, tahan & simpan', true);
+
+      setTimeout(() => {
+        btn.innerHTML = originalText;
+        btn.classList.remove('downloading');
+      }, 2500);
+    }
+  }
+
+  /* ============ AUTO-GENERATE TOMBOL NOMINAL ============ */
+  function renderAmountButtons() {
+    const grid = document.getElementById('amountGrid');
+    grid.innerHTML = NOMINAL_CEPAT.map(nominal => `
+      <button class="amount-btn" data-value="${nominal}">
+        ${formatRupiah(nominal)}
+      </button>
+    `).join('');
+
+    grid.querySelectorAll('.amount-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        grid.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        selectedAmount = parseInt(btn.dataset.value);
+        customInput.value = '';
+      });
+    });
+  }
+
+  /* ============ UPDATE PROGRESS ============ */
+  function updateProgress() {
+    let persen = 0;
+    if (CONFIG.target > 0) {
+      persen = Math.min(100, (CONFIG.terkumpul / CONFIG.target) * 100);
+    }
+
+    document.getElementById('percentText').textContent = persen.toFixed(1) + '%';
+    document.getElementById('statAnak').textContent = CONFIG.anakDidukung.toLocaleString('id-ID');
+    document.getElementById('statBuku').textContent = CONFIG.bukuDibagikan.toLocaleString('id-ID');
+    document.getElementById('statDonatur').textContent = CONFIG.donatur.toLocaleString('id-ID');
+
+    const isEmpty = CONFIG.terkumpul === 0;
+    document.getElementById('emptyMessage').style.display = isEmpty ? 'block' : 'none';
+    document.getElementById('progressInfo').style.display = isEmpty ? 'none' : 'flex';
+
+    if (!isEmpty) {
+      document.getElementById('collectedText').textContent = formatRupiah(CONFIG.terkumpul);
+      document.getElementById('targetText').textContent =
+        CONFIG.target > 0 ? formatRupiah(CONFIG.target) : 'Belum ditentukan';
+    }
+
+    setTimeout(() => {
+      document.getElementById('progressFillTop').style.width = persen + '%';
+    }, 300);
+  }
+
+  /* ============ TAMBAH DONASI ============ */
+  function tambahProgress(amount) {
+    CONFIG.terkumpul += amount;
+    CONFIG.bukuDibagikan += Math.floor(amount / 50000);
+    CONFIG.anakDidukung += Math.floor(amount / 100000);
+    CONFIG.donatur += 1;
+    updateProgress();
+  }
+
+  /* ============ PILIH NOMINAL CUSTOM ============ */
+  let selectedAmount = 0;
+  const customInput = document.getElementById('customAmount');
+
+  customInput.addEventListener('input', (e) => {
+    const formatted = formatAngka(e.target.value);
+    e.target.value = formatted;
+
+    document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('active'));
+
+    const val = formatted.replace(/\./g, '');
+    selectedAmount = parseInt(val) || 0;
+
+    document.querySelectorAll('.amount-btn').forEach(b => {
+      if (parseInt(b.dataset.value) === selectedAmount) {
+        b.classList.add('active');
+      }
+    });
+  });
+
+  /* ============ MODAL ============ */
+  let currentAmount = 0;
+  let currentName = 'Hamba Allah';
+
+  function showQRISFromForm() {
+    const customVal = customInput.value.replace(/\./g, '');
+    const amount = selectedAmount || parseInt(customVal) || 0;
+
+    if (amount < 1000) {
+      alert('Mohon pilih atau masukkan nominal donasi minimal Rp 1.000');
+      return;
+    }
+    currentAmount = amount;
+    currentName = document.getElementById('name').value.trim() || 'Hamba Allah';
+
+    document.getElementById('detailAmount').textContent = formatRupiah(amount);
+    document.getElementById('detailName').textContent = currentName;
+
+    resetModalSteps();
+
+    document.body.style.overflow = 'hidden';
+    document.getElementById('qrisModal').classList.add('show');
+  }
+
+  function resetModalSteps() {
+    document.getElementById('stepQR').style.display = 'block';
+    document.getElementById('stepWaiting').style.display = 'none';
+    document.getElementById('stepSuccess').style.display = 'none';
+    document.getElementById('progressFill').style.width = '0%';
+  }
+
+  /* ============ SIMULASI PEMBAYARAN ============ */
+  function simulasiPembayaran() {
+    const amount = currentAmount > 0 ? currentAmount : 25000;
+    currentAmount = amount;
+
+    document.getElementById('waitAmount').textContent = formatRupiah(amount);
+    document.getElementById('stepQR').style.display = 'none';
+    document.getElementById('stepWaiting').style.display = 'block';
+
+    const progress = document.getElementById('progressFill');
+    const waitingText = document.getElementById('waitingText');
+
+    let pct = 0;
+    waitingText.textContent = 'Memverifikasi pembayaran...';
+
+    const interval = setInterval(() => {
+      pct += 5;
+      progress.style.width = pct + '%';
+
+      if (pct === 30) waitingText.textContent = 'Memverifikasi pembayaran...';
+      if (pct === 60) waitingText.textContent = 'Memproses donasi...';
+      if (pct === 90) waitingText.textContent = 'Menyelesaikan transaksi...';
+
+      if (pct >= 100) {
+        clearInterval(interval);
+        setTimeout(showSuccess, 400);
+      }
+    }, 90);
+  }
+
+  /* ============ SUKSES ============ */
+  function showSuccess() {
+    const trxId = 'TRX-' + Date.now().toString().slice(-8);
+    const now = new Date();
+    const waktu = now.toLocaleString('id-ID', {
+      day: '2-digit', month: 'short', year: 'numeric',
+      hour: '2-digit', minute: '2-digit'
+    });
+
+    document.getElementById('succAmount').textContent = formatRupiah(currentAmount);
+    document.getElementById('succName').textContent = currentName;
+    document.getElementById('succId').textContent = trxId;
+    document.getElementById('succTime').textContent = waktu;
+
+    document.getElementById('stepWaiting').style.display = 'none';
+    document.getElementById('stepSuccess').style.display = 'block';
+
+    tambahProgress(currentAmount);
+  }
+
+  /* ============ TUTUP MODAL ============ */
+  function closeModal(done) {
+    document.getElementById('qrisModal').classList.remove('show');
+    document.body.style.overflow = '';
+
+    if (done) {
+      document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('active'));
+      customInput.value = '';
+      document.getElementById('name').value = '';
+      document.getElementById('message').value = '';
+      selectedAmount = 0;
+      currentAmount = 0;
+      currentName = 'Hamba Allah';
+    }
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      const modal = document.getElementById('qrisModal');
+      if (modal.classList.contains('show')) closeModal();
+    }
+  });
+
+  /* ============ INISIALISASI ============ */
+  renderAmountButtons();
+  updateProgress();
+</script>
+
+</body>
+          </html>
